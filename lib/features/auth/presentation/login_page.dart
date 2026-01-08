@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../core/network/api_client.dart';
 import '../data/auth_repository_impl.dart';
 import 'login_controller.dart';
+import 'home_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -22,12 +23,17 @@ class _LoginPageState extends State<LoginPage> {
     usernameController = TextEditingController();
     passwordController = TextEditingController();
 
-    controller = LoginController(
-      AuthRepositoryImpl(ApiClient()),
-    );
+    controller = LoginController(AuthRepositoryImpl(ApiClient()));
 
     controller.addListener(() {
-      setState(() {});
+      if (controller.success) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const HomePage()),
+        );
+      } else {
+        setState(() {});
+      }
     });
   }
 
